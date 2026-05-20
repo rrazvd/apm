@@ -265,13 +265,22 @@ jobs:
             coverage combine coverage-shards/
             coverage json -o coverage.json
             python3 scripts/coverage-summary.py coverage.json --title "Integration Test Coverage"
-            # Phase 3: enforce integration coverage gate.
-            # Baseline measured at 44% (2026-05-19). Target: 54%.
-            # Use: coverage report --fail-under=54
           else
             echo "No coverage shard files found; skipping integration coverage summary."
           fi
         continue-on-error: true
+
+      # Integration coverage gate -- raise this floor when baseline improves.
+      # Current floor: 55% (actual ~71%, 16pt margin for community PRs).
+      - name: Enforce integration coverage gate
+        if: always()
+        run: |
+          if [ -f .coverage ]; then
+            coverage report --fail-under=55
+          else
+            echo "ERROR: No combined coverage data -- the 'Combine and summarise coverage' step must produce .coverage before the gate can run."
+            exit 1
+          fi
 
       - name: Aggregate shard results
         run: |
