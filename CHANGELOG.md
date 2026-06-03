@@ -65,6 +65,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   one-directional (APM only reads vendor SARIF), and are install-method
   neutral -- they work with the self-contained APM binary with no `pip`
   extra to install.
+- `apm audit` now exposes a configuration surface for external scanner
+  behaviour (behind `external-scanners`): `--external-llm/--no-external-llm`
+  toggles a scanner's LLM-powered analysis (e.g. SkillSpector richer
+  findings) and `--external-args TEXT` passes a shlex-split string of extra
+  scanner flags. Extra-args are validated against a per-adapter allowlist of
+  safe flag prefixes -- non-allowlisted flags, secret-looking flags, and
+  out-of-cwd paths are rejected fail-closed; `--external-llm`/`--external-args`
+  without `--external` is a usage error (exit 2). Persist per-scanner defaults
+  with `apm config set external.<name>.{llm,args}` (stored under
+  `external_scanners.<name>` in `~/.apm/config.json`). Orgs can govern
+  scanners via `security.audit.scanners.<name>.allow_args: false`
+  (restrict-only kill-switch); policy never injects argv and a project-local
+  policy can never mandate LLM egress. When LLM mode is active APM prints a
+  `[!]` egress banner, forwards `OPENAI_API_KEY`/`NVIDIA_INFERENCE_KEY` only
+  for that run, and secret-redacts scanner stderr. Precedence is CLI > config
+  > policy floor; the `allow_args` floor is enforced on the install-time audit
+  path (bare `apm audit` does not load org policy and relies on the adapter
+  allowlist).
 - `apm update` now accepts `-g/--global`, positional `[PACKAGES]...`, `--force`, and `--parallel-downloads`, making it a strict superset of `apm deps update`. A single verb now covers project and user scope, per-package refresh, and collision overwrite -- all behind the same interactive plan with `--dry-run`/`--yes`. (closes #1525)
 - `apm config set mcp-registry-url <url>` / `get` / `unset` lets users persistently configure a private MCP registry endpoint without re-exporting `MCP_REGISTRY_URL` every session. The value is stored in `~/.apm/config.json` and sits between the environment variable and the built-in default in the resolution chain (CLI flag > env > config > default). Accepts `http://` or `https://` URLs; all other schemes are rejected. When the config layer is active, `apm mcp search` prints a `Registry (config): <url>` diagnostic. (closes #818) (#1637)
 
