@@ -223,6 +223,23 @@ versions available.
 | `--offline` | Use cached refs only. |
 | `--include-prerelease` | Consider prerelease tags. |
 
+When remote tags use a non-default layout (for example `my-pkg_v1.0.1`), set
+`tag_pattern: "{name}_v{version}"` on the package entry or under `build:` in
+`apm.yml`:
+
+```yaml
+packages:
+  - name: my-pkg
+    source: org/monorepo
+    version: "^1.0.0"
+    tag_pattern: "{name}_v{version}"
+```
+
+If no tags match the configured pattern, `apm marketplace outdated` tries common
+layouts (`v{version}`, `{name}_v{version}`, `{name}--v{version}`, etc.)
+automatically. Set `tag_pattern` explicitly when your producer uses a different
+layout.
+
 ### `apm marketplace publish`
 
 Push marketplace updates to one or more **consumer** repositories,
