@@ -56,6 +56,11 @@ parent's remote host/repo/ref and fetches the sibling from the same origin.
 Absolute paths, paths that escape the repo root, and cross-repo local paths
 are rejected.
 
+**GitLab `path:` fetch transport:** GitLab `path:` files are fetched over git
+transport, not the REST API, so self-hosted instances with the API disabled
+still install. Path containment is enforced on the materialized file to reject
+symlink or traversal escapes. For fallback token setup, see `authentication.md`.
+
 ### Custom git ports
 
 Non-default git ports are preserved on `https://`, `http://`, and `ssh://` URLs
