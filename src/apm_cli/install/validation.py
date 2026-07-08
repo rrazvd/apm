@@ -152,7 +152,7 @@ def _local_path_failure_reason(dep_ref):
     return "no apm.yml, SKILL.md, or plugin.json found"
 
 
-def _generic_host_ambiguous_subpath_hint(dep_ref):
+def _generic_host_ambiguous_subpath_hint(dep_ref) -> str | None:
     """Return an actionable hint when an unrecognised FQDN swallowed a subpath.
 
     Mirrors GHES (``GITHUB_HOST``): a self-hosted GitLab instance is only
@@ -170,7 +170,8 @@ def _generic_host_ambiguous_subpath_hint(dep_ref):
         return None
     if is_github_hostname(host) or dep_ref.is_azure_devops() or is_gitlab_hostname(host):
         return None
-    if len(dep_ref.repo_url.split("/")) <= 2:
+    segments = [seg for seg in dep_ref.repo_url.split("/") if seg]
+    if len(segments) <= 2:
         return None
     return (
         f"'{host}' was treated as a single repository path "

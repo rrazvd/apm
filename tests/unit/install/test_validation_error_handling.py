@@ -257,6 +257,15 @@ class TestGenericHostAmbiguousSubpathHint:
         monkeypatch.delenv("APM_GITLAB_HOSTS", raising=False)
         assert _generic_host_ambiguous_subpath_hint(self._dep(repo_url="owner/repo")) is None
 
+    def test_two_segment_repo_path_with_trailing_slash_returns_none(self, monkeypatch) -> None:
+        """Empty segments from a trailing/double slash must not inflate the count."""
+        from apm_cli.install.validation import _generic_host_ambiguous_subpath_hint
+
+        monkeypatch.delenv("GITLAB_HOST", raising=False)
+        monkeypatch.delenv("APM_GITLAB_HOSTS", raising=False)
+        assert _generic_host_ambiguous_subpath_hint(self._dep(repo_url="owner/repo/")) is None
+        assert _generic_host_ambiguous_subpath_hint(self._dep(repo_url="owner//repo")) is None
+
     def test_unrecognised_selfhosted_ambiguous_path_returns_hint(self, monkeypatch) -> None:
         from apm_cli.install.validation import _generic_host_ambiguous_subpath_hint
 
