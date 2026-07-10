@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Sub-skill and native-skill ownership tracking now keys on the full
+  dependency identity (`owner/repo`) instead of the last path segment.
+  Two different packages that happen to share a repo/leaf name (e.g. two
+  orgs each publishing a `shared-skill` or `utils` repo) were previously
+  treated as the same owner, silently suppressing the cross-package
+  collision warning exactly when it mattered -- an unrelated package
+  could overwrite another's skill with no signal. `apm install --force`
+  now correctly reports the collision regardless of dependency source
+  (registry or git), and the lockfile no longer records both packages as
+  owning the same deployed file after a collision. (by @nadav-y) (#2052)
 - Codex MCP installs and stale-server cleanup now preserve literal-quoted
   Windows path keys such as `C:\Users\me\Documents\Playground` in `config.toml`
   instead of rejecting or corrupting other projects and per-path preferences.
