@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-07-11T22:04:42.215028+00:00'
+generated_at: '2026-07-12T05:33:40.045023+00:00'
 apm_version: 0.24.1
 dependencies:
 - repo_url: _local/apm-issue-autopilot
@@ -253,7 +253,7 @@ dependencies:
   - .agents/skills/apm-review-panel/evals/render_eval.py
   - .agents/skills/apm-review-panel/evals/trigger-evals.json
   deployed_file_hashes:
-    .agents/skills/apm-review-panel/SKILL.md: sha256:fc63e25479c5c2066f317b5b0e430738bd8a67054a2ae6934fbe5b3d281fa10a
+    .agents/skills/apm-review-panel/SKILL.md: sha256:c9fee6c311b23b6ea72b06a424c8ba21c5d88bcc833e65259b7e0212aa73abbb
     .agents/skills/apm-review-panel/apm.yml: sha256:80c403c4d3c59a91bb27b85650e21a466e9cd0cbc28e92bf0f3e53c6ea71cb2c
     .agents/skills/apm-review-panel/assets/ceo-return-schema.json: sha256:d8707211968efb0471d083f880d5353d66a0eda84635e803a930f60c91837468
     .agents/skills/apm-review-panel/assets/panelist-return-schema.json: sha256:e3cf2ae17e93dd934f2659ed77d2640ea9601fbe8698f63ba800edf046691f99
@@ -549,7 +549,7 @@ deployments:
   owners:
   - local:packages/apm-review-panel
   active_owner: local:packages/apm-review-panel
-  content_hash: sha256:fc63e25479c5c2066f317b5b0e430738bd8a67054a2ae6934fbe5b3d281fa10a
+  content_hash: sha256:c9fee6c311b23b6ea72b06a424c8ba21c5d88bcc833e65259b7e0212aa73abbb
 - kind: project-relative
   target: agents
   value: .agents/skills/apm-review-panel/apm.yml
@@ -2586,6 +2586,15 @@ deployments:
   content_hash: sha256:d1ea2d038e2af8be11d6c95b3213b03b9777fae46f0438efa95d5a803e6c3765
 - kind: project-relative
   target: copilot
+  value: .github/agents/algorithmic-patterns.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:278321484288eb8965a42c20cfa65ff055d250579849b1c48cbd3f553883fe5d
+- kind: project-relative
+  target: copilot
   value: .github/agents/apm-ceo.agent.md
   runtime: null
   scope: project
@@ -2682,7 +2691,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:5262b505660c3e8ec2064cbd2f9e2732e6cae2d65b0292abe99b90b077c26ef4
+  content_hash: sha256:e2cbfd17dddc36fb732f69e47f683a4754cbaac9ac5d911899da34d597e1be62
 - kind: project-relative
   target: copilot
   value: .github/agents/python-architect.agent.md
@@ -2746,6 +2755,15 @@ deployments:
   - .
   active_owner: .
   content_hash: sha256:8fb8cc426d6af17ba084a28b3f026c2b475b62e3ca63ed2f88b83bd823f877af
+- kind: project-relative
+  target: copilot
+  value: .github/agents/test-coverage-expert.agent.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:bc588d89530362469502bfbea788df892a9a0b00e630cd0f3926d3dfd2c2a9e2
 - kind: project-relative
   target: copilot
   value: .github/instructions/architecture.instructions.md
@@ -2991,6 +3009,7 @@ local_deployed_files:
 - .agents/skills/supply-chain-security
 - .agents/skills/supply-chain-security/SKILL.md
 - .github/agents/agentic-workflows.agent.md
+- .github/agents/algorithmic-patterns.agent.md
 - .github/agents/apm-ceo.agent.md
 - .github/agents/apm-primitives-architect.agent.md
 - .github/agents/auth-expert.agent.md
@@ -3009,6 +3028,7 @@ local_deployed_files:
 - .github/agents/spec-swagger-editor.agent.md
 - .github/agents/spec-tag-architect.agent.md
 - .github/agents/supply-chain-security-expert.agent.md
+- .github/agents/test-coverage-expert.agent.md
 - .github/instructions/architecture.instructions.md
 - .github/instructions/changelog.instructions.md
 - .github/instructions/cicd.instructions.md
@@ -3239,6 +3259,7 @@ local_deployed_file_hashes:
   .agents/skills/python-architecture/SKILL.md: sha256:f06e50b8c40d7e5a732a5405a603efd80da58de2b6f6b293f0f6b58f28eefe7b
   .agents/skills/supply-chain-security/SKILL.md: sha256:55ef10cd0f6b68e0db5a435a79851c055eab74d93fd552c6626df631deb51df4
   .github/agents/agentic-workflows.agent.md: sha256:d1ea2d038e2af8be11d6c95b3213b03b9777fae46f0438efa95d5a803e6c3765
+  .github/agents/algorithmic-patterns.agent.md: sha256:278321484288eb8965a42c20cfa65ff055d250579849b1c48cbd3f553883fe5d
   .github/agents/apm-ceo.agent.md: sha256:484da64428ea46a6183dffd3f30c9fc5fc5c747639c0c79e55be69dba0899323
   .github/agents/apm-primitives-architect.agent.md: sha256:0c8f04297b14e144f84211b5b881b099233a9847c0fca257b9aa69c4d43d1eef
   .github/agents/auth-expert.agent.md: sha256:18264a933cba432b77d133e6ae11eee294c92ed245629af8c9b7a5bb7a9a300c
@@ -3249,7 +3270,7 @@ local_deployed_file_hashes:
   .github/agents/doc-writer.agent.md: sha256:328a5b9ea079869b8ccd914a6e2135c204225a5eedb42f59a1ec73058f7f0b47
   .github/agents/editorial-owner.agent.md: sha256:9dd101a9476dd93b67da1b823cc3b649f1227168fd809b108c74f9304262d860
   .github/agents/oss-growth-hacker.agent.md: sha256:1cd56bb78ab37d52c50e45ab69d759f775cd49cdf35981b3dc6c4004315c6b83
-  .github/agents/performance-expert.agent.md: sha256:5262b505660c3e8ec2064cbd2f9e2732e6cae2d65b0292abe99b90b077c26ef4
+  .github/agents/performance-expert.agent.md: sha256:e2cbfd17dddc36fb732f69e47f683a4754cbaac9ac5d911899da34d597e1be62
   .github/agents/python-architect.agent.md: sha256:9b18ed8f318755055e304edaf283435c446c1404a2199e53d2558acfb076fca2
   .github/agents/spec-editor-synthesizer.agent.md: sha256:dad51758c91753528f3a80e1102f5a71460b816897d650c0f0ad4eeb7b1c8928
   .github/agents/spec-oci-editor.agent.md: sha256:d96482cb733b0540b14ba0812fde48c07d8937ef11507b81c28a239b35b4f94a
@@ -3257,6 +3278,7 @@ local_deployed_file_hashes:
   .github/agents/spec-swagger-editor.agent.md: sha256:51019f52b2a2aed2a269187b58e6a867802636a79d1410153dc9b5b28d5d1b25
   .github/agents/spec-tag-architect.agent.md: sha256:82907265c5e7cf1ac61ad96866fa7c5683b69c8f09b7a4c5f3cc241acc9568ca
   .github/agents/supply-chain-security-expert.agent.md: sha256:8fb8cc426d6af17ba084a28b3f026c2b475b62e3ca63ed2f88b83bd823f877af
+  .github/agents/test-coverage-expert.agent.md: sha256:bc588d89530362469502bfbea788df892a9a0b00e630cd0f3926d3dfd2c2a9e2
   .github/instructions/architecture.instructions.md: sha256:a24c5c8ce4f50855a10e4b6c0814ab8e6faa4bdb0aaa715f6cf7a5fe6f253121
   .github/instructions/changelog.instructions.md: sha256:1e51ec4c74e847967962bd279dc4c6e582c5d3578490b3c28d5f3acd3e05f73e
   .github/instructions/cicd.instructions.md: sha256:08d87b7d635761cb41deb8fc71d5d83f54678de463db484afb16d2d4f8713ecb
