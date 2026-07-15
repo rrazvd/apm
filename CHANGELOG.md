@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Marketplace packages emitted as remote URL or subdirectory sources now
+  preserve the package host, path, and ref through `apm install`, fixing
+  cross-host enterprise validation and self-hosted GitLab monorepo installs.
+  (closes #2190, #2216; #2228)
 - HTTP git dependency URLs now preserve custom ports when persisted to
   `apm.yml`, so later commands reconnect to the exact endpoint the user
   specified. (closes #2202) -- by @atulya-singh (#2210)
