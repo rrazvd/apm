@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Best-effort commits API lookups now fall through promptly to Git when
+  rate-limited, avoiding multi-minute dependency resolution stalls -- by
+  @danielmeppiel (#2238).
 - Azure DevOps dependencies now report real latest versions in `apm outdated`
   and resolve correctly during bounded `apm update`, deriving transport
   coordinates from generic `host` and `repo_url` identity without
