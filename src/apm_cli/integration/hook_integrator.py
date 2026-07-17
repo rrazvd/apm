@@ -49,7 +49,7 @@ import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import yaml
 
@@ -76,6 +76,9 @@ from apm_cli.utils.path_security import (
     validate_path_segments,
 )
 from apm_cli.utils.paths import portable_relpath
+
+if TYPE_CHECKING:
+    from apm_cli.deps.lockfile import LockFile
 
 _log = logging.getLogger(__name__)
 
@@ -1958,33 +1961,30 @@ class HookIntegrator(BaseIntegrator):
         project_root: Path,
         *,
         user_scope: bool = False,
+        lockfile: "LockFile | None" = None,
     ) -> dict:
         """Reconcile merged-hook ownership after packages leave apm.yml.
 
-        ``_clean_apm_entries_from_json`` (used by ``sync_integration``)
-        strips every ``_apm_source``-tagged entry unconditionally, so a
-        caller wanting to drop just one package's hooks must wipe, then
-        rebuild from what remains installed -- mirroring the "clear +
-        rebuild" pattern ``apm uninstall`` uses (see
-        ``_sync_integrations_after_uninstall`` in
-        ``commands/uninstall/engine.py``), scoped to hooks only.
+        ``_clean_apm_entries_from_json`` strips all ``_apm_source`` entries,
+        so dropping one package requires wiping and rebuilding from installed
+        survivors. This mirrors ``_sync_integrations_after_uninstall`` in
+        ``commands/uninstall/engine.py``, scoped to hooks only.
 
-        Uses ``get_all_apm_dependencies()`` (prod + dev), matching ``apm
-        prune``'s own orphan-detection scope. Best-effort by design: a
-        re-integration failure for one dependency is logged and skipped.
+        Rebuilds from the post-removal lockfile's direct and transitive
+        packages via uninstall Phase 2's survivor set (#2254). Callers may
+        pass that lockfile; otherwise disk is read, falling back to manifest
+        dependencies only when no lockfile is available.
 
-        Target scope (#2250): the wipe below is scoped to the SAME resolved
-        ``targets`` the rebuild loop uses, so a target dropped from
-        ``targets:`` is never wiped for still-declared packages while the
-        rebuild silently skips repopulating it -- see
-        ``reconcile_dropped_targets`` for the dedicated fix to that gap.
+        Re-integration failures are logged and skipped by design.
 
-        Known boundary (shared with uninstall, #2250): only direct
-        dependencies are rebuilt here; a transitive dependency's merged
-        hooks are wiped above but never re-integrated.
+        Target scope (#2250): wipe and rebuild use the same resolved targets.
+        ``reconcile_dropped_targets`` separately owns target contraction.
         """
         from apm_cli.constants import APM_MODULES_DIR
-        from apm_cli.models.apm_package import build_installed_package_info
+        from apm_cli.models.apm_package import (
+            build_installed_package_info,
+            surviving_dependency_refs_for_reintegration,
+        )
 
         from .targets import resolve_targets
 
@@ -1998,7 +1998,9 @@ class HookIntegrator(BaseIntegrator):
         targets = resolve_targets(
             project_root, user_scope=user_scope, explicit_target=config_target or None
         )
-        surviving_deps = list(apm_package.get_all_apm_dependencies())
+        surviving_deps = surviving_dependency_refs_for_reintegration(
+            apm_package, project_root, lockfile=lockfile
+        )
 
         # Empty managed_files (not None) skips file-level deletion while
         # still triggering the merged-hook JSON wipe, scoped to the same

@@ -54,6 +54,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the same resolved target set the rebuild step repopulates, so a narrowed
   `targets:` no longer silently deletes a sibling package's hooks (and its
   `apm-hooks.json` sidecar) in the now-undeclared harness. (closes #2250)
+- `apm prune` / `apm uninstall` clear-then-rebuild of merged hooks (and
+  uninstall's broader primitive reintegration) now walks every surviving
+  lockfile package -- including transitive dependencies still required by
+  a remaining direct dep -- instead of only `apm.yml` directs. (closes #2254)
 - Packages with per-target hook files (for example separate Claude and Codex
   hooks) no longer cross-contaminate sibling tool configs when a dependency
   `targets:` list is set. APM now intersects dependency targets with filename
