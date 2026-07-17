@@ -1976,8 +1976,8 @@ class HookIntegrator(BaseIntegrator):
         dependencies only when no lockfile is available.
 
         Re-integration failures are logged and skipped by design.
-
         Target scope (#2250): wipe and rebuild use the same resolved targets.
+        ``reconcile_dropped_targets`` separately owns target contraction.
         ``reconcile_dropped_targets`` separately owns target contraction.
         """
         from apm_cli.constants import APM_MODULES_DIR

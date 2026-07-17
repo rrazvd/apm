@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Installing packages that share `.agents/skills` no longer leaves duplicate
+  lockfile state or drops prior integrity information when APM must keep a file
+  for a later retry. (#2283)
 - Copilot hooks installed with `apm install -g` now resolve from any working
   directory by writing absolute user-scope script commands, while project-scope
   hooks remain repo-relative for portability -- reported by @sproott, fixed by
