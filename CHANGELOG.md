@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Copilot hooks installed with `apm install -g` now resolve from any working
+  directory by writing absolute user-scope script commands, while project-scope
+  hooks remain repo-relative for portability -- reported by @sproott, fixed by
+  @danielmeppiel (closes #2232; #2236).
 - `apm uninstall` no longer deletes a shared transitive dependency that a
   surviving direct dependency still declares (e.g. two packages that both
   depend on the same local or remote package). When a dependency's
